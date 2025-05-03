@@ -20,6 +20,8 @@ import com.thiago.barroso.estacionamento.web.dto.UsuarioResponseDto;
 import com.thiago.barroso.estacionamento.web.dto.UsuarioSenhaDto;
 import com.thiago.barroso.estacionamento.web.mapper.UsuarioMapper;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("api/v1/usuarios")
 public class UsuarioController {
@@ -28,7 +30,7 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<UsuarioResponseDto> create(@RequestBody UsuarioCreateDto createDto) {
+    public ResponseEntity<UsuarioResponseDto> create(@Valid @RequestBody UsuarioCreateDto createDto) {
         Usuario user = usuarioService.salvar(UsuarioMapper.toUsuario(createDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toDto(user));
     }
