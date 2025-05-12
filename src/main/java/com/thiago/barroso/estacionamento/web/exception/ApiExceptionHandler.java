@@ -1,8 +1,5 @@
 package com.thiago.barroso.estacionamento.web.exception;
 
-import org.springframework.http.HttpStatus.
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
@@ -26,6 +22,17 @@ public class ApiExceptionHandler {
 				.status(HttpStatus.UNPROCESSABLE_ENTITY)
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(new ErrorMessage(request, HttpStatus.UNPROCESSABLE_ENTITY, "Campo(s) invalido(s)", result));
+		
+	}
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<ErrorMessage> methodArgumentNotValidException(RuntimeException ex,
+			HttpServletRequest request){
+		 
+		return ResponseEntity
+				.status(HttpStatus.CONFLICT)
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
 		
 	}
 	
