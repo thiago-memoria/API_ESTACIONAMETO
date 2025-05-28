@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thiago.barroso.estacionamento.entity.Usuario;
+import com.thiago.barroso.estacionamento.entity.Usuario.Role;
 import com.thiago.barroso.estacionamento.exception.EntityNotFoundException;
 import com.thiago.barroso.estacionamento.exception.UsernameUniqueViolationException;
 import com.thiago.barroso.estacionamento.repository.UsuarioRepository;
@@ -52,4 +53,16 @@ public class UsuarioService {
     public List<Usuario> buscarTodos() {
         return usuarioRepository.findAll();
     }
+    
+    @Transactional(readOnly = true)
+    public Usuario buscarPorUsername(String username) {
+    	return usuarioRepository.findByUsername(username).orElseThrow(
+    			() -> new EntityNotFoundException(String.format("Usuario com '%s' não encontrado", username))
+    	);
+    }
+    
+    @Transactional(readOnly = true)
+	public Role buscarRolePorUsername(String username) {
+		return usuarioRepository.findRoleByUsername(username);
+	}
 }
