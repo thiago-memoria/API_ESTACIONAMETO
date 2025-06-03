@@ -32,8 +32,6 @@ public class JwtUtils {
 	
 	private static final Logger log = LoggerFactory.getLogger(TokenService.class);
 
-
-	
 	private JwtUtils() {
 		
 	}
